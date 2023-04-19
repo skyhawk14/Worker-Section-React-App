@@ -9,31 +9,6 @@ import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import "./WorkerTable.css";
-const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-  {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
-];
 const columns1 = [
   {
     id: "Name",
@@ -121,7 +96,7 @@ function stringAvatar(name) {
     },
     children: name
       .split(" ")
-      .map((n) => n.charAt(0))
+      .map((n) => n.charAt(0).toUpperCase())
       .join(""),
   };
 }
@@ -193,7 +168,7 @@ export default function WorkersTable({ workersData }) {
               .map((row, index) => {
                 console.log(row, index);
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.Id}>
                     {columns1.map((column, idx) => {
                       const value = row[column.id];
                       return (
@@ -213,7 +188,7 @@ export default function WorkersTable({ workersData }) {
                               display: "flex",
                             }}
                           >
-                            {idx === 0 && getAvatar(value)}
+                            {idx === 0 && <div>{getAvatar(value)}</div>}
                             <p
                               style={{
                                 display: "flex",
