@@ -34,9 +34,9 @@ function createContact() {
   });
 }
 
-async function routerAction() {
+async function routerAction(obj) {
   const contacts = await createContact();
-  console.log(contacts);
+  console.log(obj);
   return { contacts };
 }
 const router = createBrowserRouter([
@@ -52,6 +52,13 @@ const router = createBrowserRouter([
         element: <>Hello</>,
       },
     ],
+  },
+  {
+    path: "/events",
+    element: <h1>Hello</h1>,
+    errorElement: <ErrorPage />,
+    action: routerAction,
+    loader: rootLoader,
   },
 ]);
 export { router };

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Outlet, Form, useLoaderData } from "react-router-dom";
+import CreateWorker from "../workers/create-worker";
 import Workers from "../workers/workers";
 
 export default function MainApp() {
@@ -7,7 +8,12 @@ export default function MainApp() {
   console.log(workers);
   return (
     <>
-      <div id="sidebar">
+      <div
+        id="sidebar"
+        style={{
+          display: "none",
+        }}
+      >
         <div>
           <form id="search-form" role="search">
             <input
@@ -50,6 +56,7 @@ export default function MainApp() {
         </nav>
       </div>
       <div id="detail">
+        <CreateWorker />
         <Workers />
         <Outlet />
       </div>

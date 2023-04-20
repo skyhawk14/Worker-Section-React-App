@@ -6,7 +6,7 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import SignpostIcon from "@mui/icons-material/Signpost";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
-import { SpeedDialAction } from "@mui/material";
+import Button from "@mui/material/Button";
 function stringToColor(string) {
   let hash = 0;
   let i;
@@ -109,6 +109,15 @@ export default function WorkerCard({ workerData }) {
               <span>{workerData.postalCode}</span>
             </p>
           </div>
+          <Button
+            style={{
+              width: "150px",
+              marginTop: "20px",
+            }}
+            variant="outlined"
+          >
+            Show More
+          </Button>
         </div>
       </div>
     </Card>
