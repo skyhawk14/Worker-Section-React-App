@@ -61,7 +61,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Workers() {
-  const [workersData, setWorkersData] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const searcher = useRef(null);
   const workers = useSelector((state) => {
@@ -71,17 +70,13 @@ export default function Workers() {
   const dispatch = useDispatch();
   useEffect(() => {
     async function handler() {
-      let workerData = await getAllWorkers();
       dispatch(fetchAllWorkers());
-      // setWorkersData(workerData.data);
-      // setSearchResult(workerData.data);
     }
     handler();
   }, []);
 
   useEffect(() => {
     setSearchResult(workers);
-    setWorkersData(workers);
     searcher.current = new FuzzySearch(
       workers,
       [

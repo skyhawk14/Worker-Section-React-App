@@ -1,5 +1,6 @@
 import { axiosInstance } from "../../axios-setup/axios";
-import { workerSlice } from "../../store/slices/worker-slice";
+// for getting all the workers
+// ToDo: handle try catch
 async function getAllWorkers() {
   try {
     let workersData = await axiosInstance.get("/workers");
@@ -8,10 +9,14 @@ async function getAllWorkers() {
     console.log(err);
   }
 }
+// for getting the worker with worker id
+// ToDo: handle try catch
 async function getWorker(workerId) {
   let workerData = await axiosInstance.get(`/workers/${workerId}`);
   return workerData;
 }
+// for creating worker Object
+// // ToDo: handle try catch
 async function createWorker(workerObj) {
   let { data } = await axiosInstance.post("/workers", workerObj);
   return data.id;

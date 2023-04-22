@@ -8,41 +8,9 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-function stringToColor(string) {
-  let hash = 0;
-  let i;
+import { stringAvatar } from "./utils/utility";
 
-  /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = "#";
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  /* eslint-enable no-bitwise */
-
-  return color;
-}
-
-function stringAvatar(name) {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children:
-      name !== ""
-        ? name
-            .split(" ")
-            .map((n) => n.charAt(0).toUpperCase())
-            .join("")
-        : "U",
-  };
-}
-
+// component to show the worker data inside grid view
 export default function WorkerCard({ workerData }) {
   const navigate = useNavigate();
 

@@ -12,6 +12,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+// component to show the details of worker
 export default function WorkerDetailsContainer() {
   return (
     <Box sx={{ flexGrow: 1 }}>

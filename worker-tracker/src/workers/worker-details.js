@@ -6,53 +6,11 @@ import "./worker-details.css";
 import { useParams } from "react-router-dom";
 import { getWorker } from "./utils/api";
 import { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import DoneIcon from "@mui/icons-material/Done";
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  // textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import { stringAvatar } from "./utils/utility";
 
-function stringToColor(string = "") {
-  let hash = 0;
-  let i;
-
-  /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = "#";
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  /* eslint-enable no-bitwise */
-
-  return color;
-}
-
-function stringAvatar(name = "") {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children:
-      name !== ""
-        ? name
-            .split(" ")
-            .map((n) => n.charAt(0).toUpperCase())
-            .join("")
-        : "U",
-  };
-}
 export default function WorkerDetails() {
   const { workerId } = useParams();
   console.log(workerId);
@@ -133,7 +91,6 @@ export default function WorkerDetails() {
                 style={{
                   fontSize: "24px",
                   fontWeight: "800",
-                  // color: "rgb(1,174,239)",
                 }}
               >
                 <span>Name</span>
@@ -223,91 +180,7 @@ export default function WorkerDetails() {
       </Grid>
     </Box>
   ) : (
-    // <div className="pageContainer">
-    //   <div className="profilePageContainer">
-    //     <Avatar
-    //       style={{
-    //         width: "200px",
-    //         height: "200px",
-    //         outline: "4px solid gray",
-    //         margin: "30px",
-    //         padding: "30px",
-    //       }}
-    //       {...stringAvatar(
-    //         workerData.FirstName?.concat(workerData.LastModifiedOn)
-    //       )}
-    //     />
-    //     <p>
-    //       <span className="workerId">{workerData.EmployerId}</span>
-    //       <span>
-    //         <ContentCopyIcon className="copyIcon" />
-    //       </span>
-    //     </p>
-    //   </div>
-    //   <div className="profileDataContainer">
-    //     <div>
-    //       <p>
-    //         <span>Job Title</span>
-    //         {workerData.JobTitle}
-    //       </p>
-    //       <p>
-    //         <span>Name</span>
-    //         {workerData.FirstName} {workerData.LastName}
-    //       </p>
-    //     </div>
-    //     <div
-    //       className="contact"
-    //       style={{
-    //         display: "flex",
-    //         flexDirection: "row",
-    //       }}
-    //     >
-    //       <div>
-    //         <span>Contact Information</span>
-    //       </div>
-    //       <div style={{}}>
-    //         <p className="phoneNueNumer">
-    //           <PhoneIcon />
-    //           <span>{workerData.MobileNumber}</span>
-    //         </p>
-    //         <p className="mobileNumber">
-    //           <PhoneAndroidIcon />
-    //           <span>{workerData.PhoneNumber}</span>
-    //         </p>
-    //       </div>
-    //     </div>
-    //     <div
-    //       className="contact"
-    //       style={{
-    //         display: "flex",
-    //         flexDirection: "row",
-    //         marginTop: "30px",
-    //       }}
-    //     >
-    //       <div>
-    //         <span>Emergency Contacts</span>
-    //       </div>
-    //       <div style={{}}>
-    //         <p className="phoneNueNumer">
-    //           <PhoneIcon />
-    //           <span>{workerData.EmergencyContact1}</span>
-    //         </p>
-    //         <p className="mobileNumber">
-    //           <PhoneAndroidIcon />
-    //           <span>{workerData.EmergencyContact2}</span>
-    //         </p>
-    //       </div>
-    //     </div>
-    //     <div className="address">
-    //       <p>Address</p>
-    //       <div>
-    //         <p>Street Address: {workerData.StreetAddress}</p>
-    //         <p>City: {workerData.City}</p>
-    //         <p>Postal Code: {workerData.PostalCode}</p>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
+    // ToDo: loading can be done better and can be handled during routing
     <div>Loading</div>
   );
 }
