@@ -1,10 +1,9 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { data as workersData } from "./data";
 import WorkerCard from "./worker-card";
 
-export default function WorkersGrid() {
+export default function WorkersGrid({ workersData }) {
   let newData = workersData.map((d) => {
     return {
       id: d.Id,
@@ -23,16 +22,26 @@ export default function WorkersGrid() {
     };
   });
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid
-        container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 4, sm: 8, md: 12 }}
-      >
-        {newData.map((workerData) => (
-          <WorkerCard workerData={workerData} />
-        ))}
-      </Grid>
+    <Box
+      sx={{ flexGrow: 1 }}
+      style={{
+        overflow: "scroll",
+        height: "80vh",
+      }}
+    >
+      {newData.length > 0 ? (
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+        >
+          {newData.map((workerData) => (
+            <WorkerCard key={workerData.id} workerData={workerData} />
+          ))}
+        </Grid>
+      ) : (
+        <>No Data Found</>
+      )}
     </Box>
   );
 }

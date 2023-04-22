@@ -1,4 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
+import CreateWorker from "../workers/create-worker";
+import WorkerDetails from "../workers/worker-details";
+import WorkerDetailsContainer from "../workers/worker-details-container";
+import Workers from "../workers/workers";
 import ErrorPage from "./error-page";
 import MainApp from "./main-app";
 
@@ -34,31 +38,29 @@ function createContact() {
   });
 }
 
-async function routerAction(obj) {
-  const contacts = await createContact();
-  console.log(obj);
-  return { contacts };
-}
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainApp />,
     errorElement: <ErrorPage />,
-    action: routerAction,
     loader: rootLoader,
     children: [
       {
+        path: "/workers",
+        element: <Workers />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/workers/create",
+        element: <CreateWorker />,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: "workers/:workerId",
-        element: <>Hello</>,
+        element: <WorkerDetails />,
+        errorElement: <ErrorPage />,
       },
     ],
-  },
-  {
-    path: "/events",
-    element: <h1>Hello</h1>,
-    errorElement: <ErrorPage />,
-    action: routerAction,
-    loader: rootLoader,
   },
 ]);
 export { router };

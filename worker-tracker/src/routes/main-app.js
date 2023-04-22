@@ -1,66 +1,37 @@
-import { Link } from "react-router-dom";
-import { Outlet, Form, useLoaderData } from "react-router-dom";
-import CreateWorker from "../workers/create-worker";
-import WorkerDetails from "../workers/worker-details";
-import Workers from "../workers/workers";
+import { Outlet, useLoaderData } from "react-router-dom";
+import WebsiteAppBar from "../AppBar";
+import { forwardRef, useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 export default function MainApp() {
-  const { workers } = useLoaderData();
-  console.log(workers);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <>
+      <WebsiteAppBar />
       <div
-        id="sidebar"
+        id="detail"
         style={{
-          display: "none",
+          marginTop: "50px",
         }}
       >
-        <div>
-          <form id="search-form" role="search">
-            <input
-              id="q"
-              aria-label="Search contacts"
-              placeholder="Search"
-              type="search"
-              name="q"
-            />
-            <div id="search-spinner" aria-hidden hidden={true} />
-            <div className="sr-only" aria-live="polite"></div>
-          </form>
-          <Form method="post">
-            <button type="submit">New</button>
-          </Form>
-        </div>
-        <nav>
-          {workers.length ? (
-            <ul>
-              {workers.map((worker) => (
-                <li key={worker.id}>
-                  <Link to={`contacts/${worker.id}`}>
-                    {worker.first || worker.last ? (
-                      <>
-                        {worker.first} {worker.last}
-                      </>
-                    ) : (
-                      <i>No Name</i>
-                    )}{" "}
-                    {worker.favorite && <span>★</span>}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>
-              <i>No contacts</i>
-            </p>
-          )}
-        </nav>
-      </div>
-      <div id="detail">
-        <WorkerDetails />
-        {/* <CreateWorker />
-        <Workers /> */}
-        {/* <Outlet /> */}
+        <Outlet />
       </div>
     </>
   );
