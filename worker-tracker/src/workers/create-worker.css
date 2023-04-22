@@ -1,0 +1,9 @@
+form,
+form label,
+button {
+  font-family: "Roboto Slab", serif !important;
+}
+
+.registerButton:hover {
+  opacity: 0.4;
+}

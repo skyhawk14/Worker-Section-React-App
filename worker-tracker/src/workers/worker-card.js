@@ -7,6 +7,7 @@ import SignpostIcon from "@mui/icons-material/Signpost";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 function stringToColor(string) {
   let hash = 0;
   let i;
@@ -43,6 +44,8 @@ function stringAvatar(name) {
 }
 
 export default function WorkerCard({ workerData }) {
+  const navigate = useNavigate();
+
   return (
     <Card
       sx={{ maxWidth: 345, height: 345, margin: "30px" }}
@@ -115,6 +118,9 @@ export default function WorkerCard({ workerData }) {
               marginTop: "20px",
             }}
             variant="outlined"
+            onClick={() => {
+              navigate(`/workers/${workerData.id}`);
+            }}
           >
             Show More
           </Button>

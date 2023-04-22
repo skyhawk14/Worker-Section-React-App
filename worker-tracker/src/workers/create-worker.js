@@ -1,17 +1,9 @@
-// export default function CreateWorker() {
-//   return (
-//     <Form method="post" action="/events">
-//       <input type="text" name="title" />
-//       <input type="text" name="description" />
-//       <button type="submit">Create</button>
-//     </Form>
-//   );
-// }
-
 import React, { useState } from "react";
-import { TextField, Button, Container, Stack } from "@mui/material";
-import { Link, Form } from "react-router-dom";
-
+import { TextField, Button, Stack } from "@mui/material";
+import { Form, useNavigate } from "react-router-dom";
+import uniqid from "uniqid";
+import { createWorker } from "./utils/api";
+import "./create-worker.css";
 const CreateWorker = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,10 +13,51 @@ const CreateWorker = () => {
   const [postalCode, setPostalCode] = useState("");
   const [mobileNumber, setMobilenumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [emergencyNumber1, setEmergency1] = useState("");
+  const [emergencyNumber2, setEmergency2] = useState("");
+  const [emergencyNotes, setEmergencyNotes] = useState("");
+  const navigate = useNavigate();
+  const submitHandler = async function () {
+    let workerObj = {
+      FirstName: firstName,
+      LastName: lastName,
+      JobTitle: jobtitle,
+      StreetAddress: streetAddress,
+      City: city,
+      PostalCode: postalCode,
+      MobileNumber: mobileNumber,
+      PhoneNumber: phoneNumber,
+      DateHired: new Date(),
+      Position: "worker",
+      EmployeeNumber: uniqid(),
+      EmergencyContact1: emergencyNumber1,
+      EmergencyContact2: emergencyNumber2,
+      EmergencyNotes: emergencyNotes,
+    };
+    let workerId = await createWorker(workerObj);
+    return navigate(`/workers/${workerId}`);
+  };
   return (
-    <Form method="post" action="/events">
-      <h2>Register Form</h2>
-      <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
+    <Form
+      method="post"
+      action="/events"
+      style={{
+        marginLeft: "20px",
+        width: "90vw",
+      }}
+      onSubmit={(event) => {
+        event.preventDefault();
+        submitHandler();
+      }}
+    >
+      <h1
+        style={{
+          fontWeight: 600,
+        }}
+      >
+        Create Worker
+      </h1>
+      <Stack spacing={1} direction="row" sx={{ marginBottom: 2 }}>
         <TextField
           type="text"
           variant="outlined"
@@ -55,7 +88,7 @@ const CreateWorker = () => {
         value={jobtitle}
         fullWidth
         required
-        sx={{ mb: 4 }}
+        sx={{ mb: 2 }}
       />
       <TextField
         type="text"
@@ -66,7 +99,7 @@ const CreateWorker = () => {
         value={streetAddress}
         fullWidth
         required
-        sx={{ mb: 4 }}
+        sx={{ mb: 2 }}
       />
       <TextField
         type="text"
@@ -77,7 +110,7 @@ const CreateWorker = () => {
         value={city}
         fullWidth
         required
-        sx={{ mb: 4 }}
+        sx={{ mb: 2 }}
       />
       <TextField
         type="text"
@@ -88,7 +121,7 @@ const CreateWorker = () => {
         value={postalCode}
         fullWidth
         required
-        sx={{ mb: 4 }}
+        sx={{ mb: 2 }}
       />
       <TextField
         type="text"
@@ -99,7 +132,7 @@ const CreateWorker = () => {
         value={mobileNumber}
         fullWidth
         required
-        sx={{ mb: 4 }}
+        sx={{ mb: 2 }}
       />
       <TextField
         type="text"
@@ -110,10 +143,51 @@ const CreateWorker = () => {
         value={phoneNumber}
         fullWidth
         required
-        sx={{ mb: 4 }}
+        sx={{ mb: 2 }}
       />
-
-      <Button variant="outlined" color="secondary" type="submit">
+      <TextField
+        type="text"
+        variant="outlined"
+        color="secondary"
+        label="Emergency Contact1"
+        onChange={(e) => setEmergency1(e.target.value)}
+        value={emergencyNumber1}
+        fullWidth
+        required
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        type="text"
+        variant="outlined"
+        color="secondary"
+        label="Emergency Contact2"
+        onChange={(e) => setEmergency2(e.target.value)}
+        value={emergencyNumber2}
+        fullWidth
+        required
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        type="text"
+        variant="outlined"
+        color="secondary"
+        label="Emergency Notes"
+        onChange={(e) => setEmergencyNotes(e.target.value)}
+        value={emergencyNotes}
+        fullWidth
+        required
+        sx={{ mb: 2 }}
+      />
+      <Button
+        variant="outlined"
+        color="primary"
+        type="submit"
+        style={{
+          backgroundColor: "orange",
+          color: "white",
+        }}
+        className="registerButton"
+      >
         Register
       </Button>
     </Form>

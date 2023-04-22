@@ -6,9 +6,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import "./WorkerTable.css";
+import { useNavigate } from "react-router-dom";
 const columns1 = [
   {
     id: "Name",
@@ -69,7 +70,7 @@ const formatContacts = function (...contacts) {
     .join(", ");
 };
 
-function stringToColor(string) {
+function stringToColor(string = "") {
   let hash = 0;
   let i;
 
@@ -89,7 +90,7 @@ function stringToColor(string) {
   return color;
 }
 
-function stringAvatar(name) {
+function stringAvatar(name = "") {
   return {
     sx: {
       bgcolor: stringToColor(name),
@@ -107,6 +108,7 @@ function getAvatar(name) {
 export default function WorkersTable({ workersData }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
   let newData = workersData.map((d) => {
     return {
       Id: d.Id,
@@ -136,10 +138,11 @@ export default function WorkersTable({ workersData }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const navigate = useNavigate();
 
   return (
-    <Paper sx={{ width: "90%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <TableContainer sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="workers table">
           <TableHead>
             <TableRow role="checkbox" tabIndex={-1}>
@@ -168,7 +171,18 @@ export default function WorkersTable({ workersData }) {
               .map((row, index) => {
                 console.log(row, index);
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.Id}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.Id}
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      return navigate(`workers/${row.Id}`);
+                    }}
+                  >
                     {columns1.map((column, idx) => {
                       const value = row[column.id];
                       return (

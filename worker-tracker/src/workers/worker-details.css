@@ -3,42 +3,84 @@
   font-size: 12px;
   padding: 12px;
 }
+.hr {
+  margin: 25px;
+}
 .copyIcon {
   margin-top: 4px;
 }
 .address p {
   margin: 0;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.avatar {
+  height: 200px;
+  width: 200px;
 }
 .pageContainer {
+  color: rgb(80, 80, 80);
+  margin: auto;
   display: flex;
   flex-direction: row;
   height: 100vh;
+  /* padding: 100px; */
+  background: rgb(31, 144, 234);
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .profileDataContainer {
-  width: 60vw;
+  background: white;
+
+  padding: 50px 50px 50px 0px;
 }
 .profilePageContainer {
-  width: 40vw;
-  margin-right: 100px;
+  background: white;
 }
-
-@media only screen and (max-width: 600px) {
+.profileDataContainer span,
+p {
+  margin-right: 20px;
+  font-weight: 800;
+  color: rgb(80, 80, 80);
+  text-transform: uppercase;
+}
+.contact p {
+  padding: 0;
+  margin: 0;
+}
+.contact {
+  justify-content: flex-start;
+}
+.contact:first-child {
+  margin-left: 20px;
+}
+@media only screen and (max-width: 800px) {
+  .avatar {
+    height: 60px;
+    width: 60px;
+  }
   .pageContainer {
     display: flex;
     flex-direction: column;
+    margin: inherit;
+    min-width: 600px;
   }
   .profileDataContainer {
-    width: 100vw;
+    padding: 25px;
   }
   .profilePageContainer {
-    width: 100vw;
     align-items: center;
+    padding: 10px;
   }
   .profilePageContainer div {
     transform: translate(50%, 0);
   }
   .profilePageContainer p {
     margin-left: 70px;
+  }
+  .contact {
+    justify-content: unset;
   }
 }
