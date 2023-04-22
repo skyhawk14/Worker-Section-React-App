@@ -8,6 +8,8 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 export default function MainApp() {
+  
+  // ToDo: set global error and success using global state
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
