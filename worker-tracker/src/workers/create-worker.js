@@ -17,6 +17,9 @@ const CreateWorker = () => {
   const [emergencyNumber2, setEmergency2] = useState("");
   const [emergencyNotes, setEmergencyNotes] = useState("");
   const navigate = useNavigate();
+  const loadWorker = function (workerId) {
+    return navigate(`/workers/${workerId}`);
+  };
   const submitHandler = async function () {
     let workerObj = {
       FirstName: firstName,
@@ -34,8 +37,14 @@ const CreateWorker = () => {
       EmergencyContact2: emergencyNumber2,
       EmergencyNotes: emergencyNotes,
     };
-    let workerId = await createWorker(workerObj);
-    return navigate(`/workers/${workerId}`);
+    let workerId;
+    try {
+      workerId = await createWorker(workerObj);
+      loadWorker(workerId);
+    } catch (err) {
+      loadWorker(workerId);
+      console.log(err);
+    }
   };
   return (
     <Form

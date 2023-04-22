@@ -3,6 +3,9 @@
   font-size: 12px;
   padding: 12px;
 }
+.phoneNueNumer {
+  display: flex;
+}
 .hr {
   margin: 25px;
 }
@@ -55,6 +58,13 @@ p {
 }
 .contact:first-child {
   margin-left: 20px;
+}
+.copyIcon {
+  cursor: pointer;
+}
+.copyIcon:hover {
+  padding: 2px;
+  transform: scale(1.5);
 }
 @media only screen and (max-width: 800px) {
   .avatar {

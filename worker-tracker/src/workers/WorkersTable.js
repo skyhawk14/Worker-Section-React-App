@@ -142,7 +142,12 @@ export default function WorkersTable({ workersData }) {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 600 }}>
+      <TableContainer
+        sx={{ maxHeight: 550 }}
+        style={{
+          border: "2px solid black",
+        }}
+      >
         <Table stickyHeader aria-label="workers table">
           <TableHead>
             <TableRow role="checkbox" tabIndex={-1}>
@@ -166,65 +171,70 @@ export default function WorkersTable({ workersData }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {newData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                console.log(row, index);
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.Id}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      return navigate(`workers/${row.Id}`);
-                    }}
-                  >
-                    {columns1.map((column, idx) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell
-                          style={{
-                            position: idx === 0 ? "sticky" : "",
-                            left: 0,
-                            boxShadow:
-                              idx === 0 &&
-                              `16px 0 16px -16px rgba(0,0,0,0.1) inset`,
-                          }}
-                          key={column.id}
-                          align={column.align}
-                        >
-                          <div
+            {newData.length > 0 ? (
+              newData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  console.log(row, index);
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.Id}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        return navigate(`${row.Id}`);
+                      }}
+                    >
+                      {columns1.map((column, idx) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell
                             style={{
-                              display: "flex",
+                              position: idx === 0 ? "sticky" : "",
+                              left: 0,
+                              boxShadow:
+                                idx === 0 &&
+                                `16px 0 16px -16px rgba(0,0,0,0.1) inset`,
                             }}
+                            key={column.id}
+                            align={column.align}
                           >
-                            {idx === 0 && <div>{getAvatar(value)}</div>}
-                            <p
+                            <div
                               style={{
                                 display: "flex",
-                                alignItems: "center",
-                                margin: "0 0 0 10px",
                               }}
                             >
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
-                            </p>
-                          </div>
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+                              {idx === 0 && <div>{getAvatar(value)}</div>}
+                              <p
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  margin: "0 0 0 10px",
+                                }}
+                              >
+                                {column.format && typeof value === "number"
+                                  ? column.format(value)
+                                  : value}
+                              </p>
+                            </div>
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })
+            ) : (
+              <>No Data Found</>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
+        style={{ color: "black", fontWeight: "800" }}
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={newData.length}

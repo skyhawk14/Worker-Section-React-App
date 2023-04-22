@@ -10,7 +10,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-
+import DoneIcon from "@mui/icons-material/Done";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -57,18 +57,27 @@ export default function WorkerDetails() {
   const { workerId } = useParams();
   console.log(workerId);
   const [workerData, setWorkerData] = useState({});
-  useEffect(() => {
-    getWorker(workerId).then((res) => setWorkerData(res.data));
-  }, []);
 
+  useEffect(() => {
+    async function loadWorker(workerId) {
+      try {
+        let res = await getWorker(workerId);
+        setWorkerData(res.data);
+      } catch (err) {
+        loadWorker(workerId);
+      }
+    }
+    loadWorker(workerId);
+  }, []);
+  const [isDone, setIsDone] = useState(true);
   return Object.keys(workerData).length > 0 ? (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
         container
         spacing={2}
         style={{
-          height: "100vh",
-          width: "100vw",
+          // height: "100vh",
+          // width: "100vw",
           justifyContent: "center",
           alignContent: "center",
           padding: "20px",
@@ -88,6 +97,9 @@ export default function WorkerDetails() {
                 outline: "4px solid gray",
                 margin: "30px",
                 padding: "30px",
+                color: "black",
+                fontWeight: "600",
+                fontSize: "18px",
               }}
               {...stringAvatar(
                 workerData.FirstName?.concat(workerData.LastModifiedOn)
@@ -96,7 +108,20 @@ export default function WorkerDetails() {
             <p>
               <span className="workerId">{workerData.EmployerId}</span>
               <span>
-                <ContentCopyIcon className="copyIcon" />
+                {isDone ? (
+                  <ContentCopyIcon
+                    className="copyIcon"
+                    onClick={() => {
+                      navigator.clipboard.writeText(workerData.EmployerId);
+                      setIsDone(false);
+                      setTimeout(() => {
+                        setIsDone(true);
+                      }, 3000);
+                    }}
+                  />
+                ) : (
+                  <DoneIcon />
+                )}
               </span>
             </p>
           </div>
@@ -106,7 +131,9 @@ export default function WorkerDetails() {
             <div>
               <p
                 style={{
-                  color: "rgb(1,174,239)",
+                  fontSize: "24px",
+                  fontWeight: "800",
+                  // color: "rgb(1,174,239)",
                 }}
               >
                 <span>Name</span>

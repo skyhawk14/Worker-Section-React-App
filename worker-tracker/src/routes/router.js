@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import CreateWorker from "../workers/create-worker";
 import WorkerDetails from "../workers/worker-details";
 import WorkerDetailsContainer from "../workers/worker-details-container";
+import Workers from "../workers/workers";
 import ErrorPage from "./error-page";
 import MainApp from "./main-app";
 
@@ -43,18 +44,23 @@ const router = createBrowserRouter([
     element: <MainApp />,
     errorElement: <ErrorPage />,
     loader: rootLoader,
-    children: [],
-  },
-  {
-    path: "/workers/create",
-    element: <CreateWorker />,
-    errorElement: <ErrorPage />,
-    loader: rootLoader,
-  },
-  {
-    path: "workers/:workerId",
-    element: <WorkerDetails />,
-    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/workers",
+        element: <Workers />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/workers/create",
+        element: <CreateWorker />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "workers/:workerId",
+        element: <WorkerDetails />,
+        errorElement: <ErrorPage />,
+      },
+    ],
   },
 ]);
 export { router };

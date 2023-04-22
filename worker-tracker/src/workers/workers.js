@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { data } from "./data";
+import { useState, useEffect, useRef } from "react";
 import WorkersGrid from "./workers-grid";
 import WorkersTable from "./WorkersTable";
 import * as React from "react";
@@ -7,23 +6,17 @@ import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import TableViewIcon from "@mui/icons-material/TableView";
 import { getAllWorkers } from "./utils/api";
+import FuzzySearch from "fuzzy-search";
+import { debounceOptimized } from "./utils/utility";
+import { fetchAllWorkers } from "../store/slices/worker-slice";
+import { useSelector, useDispatch } from "react-redux";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -69,32 +62,46 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Workers() {
   const [workersData, setWorkersData] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
+  const searcher = useRef(null);
+  const workers = useSelector((state) => {
+    return state.workers.workersData;
+  });
+  debugger;
+  const dispatch = useDispatch();
   useEffect(() => {
     async function handler() {
       let workerData = await getAllWorkers();
-      // console.log(data);
-      setWorkersData(workerData.data);
+      dispatch(fetchAllWorkers());
+      // setWorkersData(workerData.data);
+      // setSearchResult(workerData.data);
     }
     handler();
   }, []);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  useEffect(() => {
+    setSearchResult(workers);
+    setWorkersData(workers);
+    searcher.current = new FuzzySearch(
+      workers,
+      [
+        "FirstName",
+        "LastName",
+        "EmployerId",
+        "PostalCode",
+        "MobileNumber",
+        "PhoneNumber",
+      ],
+      {
+        caseSensitive: false,
+      }
+    );
+  }, [workers]);
+
+  const handleSearch = function (event) {
+    let searchedData = searcher.current.search(event.target.value);
+    setSearchResult(searchedData);
   };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const [workers, setWorkers] = useState(data);
   const [isTableView, setIsTableView] = useState(true);
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -102,7 +109,7 @@ export default function Workers() {
         position="static"
         style={{
           background: "gray",
-          opacity: "0.88",
+          opacity: "0.70",
         }}
       >
         <Toolbar style={{ justifyContent: "space-between" }}>
@@ -111,6 +118,7 @@ export default function Workers() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              onChange={debounceOptimized(handleSearch, 400)}
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
@@ -145,9 +153,9 @@ export default function Workers() {
         </Toolbar>
       </AppBar>
       {isTableView ? (
-        <WorkersTable workersData={workersData} />
+        <WorkersTable workersData={searchResult} />
       ) : (
-        <WorkersGrid />
+        <WorkersGrid workersData={searchResult} />
       )}
     </Box>
   );
