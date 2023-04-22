@@ -46,12 +46,12 @@ const router = createBrowserRouter([
     loader: rootLoader,
     children: [
       {
-        path: "/workers",
+        path: "/",
         element: <Workers />,
         errorElement: <ErrorPage />,
       },
       {
-        path: "/workers/create",
+        path: "/create",
         element: <CreateWorker />,
         errorElement: <ErrorPage />,
       },

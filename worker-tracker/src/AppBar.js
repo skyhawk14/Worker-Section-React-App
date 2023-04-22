@@ -2,8 +2,6 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -13,8 +11,8 @@ function WebsiteAppBar() {
   const navItems = ["Show All Workers", "Create Worker"];
 
   const url = {
-    [navItems[0]]: "/workers",
-    [navItems[1]]: "/workers/create",
+    [navItems[0]]: "/",
+    [navItems[1]]: "/create",
   };
   return (
     <Box sx={{ display: "flex" }}>
@@ -33,7 +31,7 @@ function WebsiteAppBar() {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             <Link
-              to={`/workers`}
+              to={`/`}
               style={{
                 textDecoration: "none",
                 color: "white",

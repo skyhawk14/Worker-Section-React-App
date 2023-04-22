@@ -156,7 +156,7 @@ export default function WorkersTable({ workersData }) {
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        return navigate(`${row.Id}`);
+                        return navigate(`/workers/${row.Id}`);
                       }}
                     >
                       {columns1.map((column, idx) => {
