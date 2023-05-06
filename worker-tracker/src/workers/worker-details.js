@@ -34,13 +34,11 @@ export default function WorkerDetails() {
         container
         spacing={2}
         style={{
-          // height: "100vh",
-          // width: "100vw",
           justifyContent: "center",
           alignContent: "center",
           padding: "20px",
           margin: "0",
-          border: "50px solid rgb(31,144,234)",
+          border: "20px solid cadetblue",
           borderRadius: "40px",
         }}
       >

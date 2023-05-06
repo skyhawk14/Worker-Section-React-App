@@ -79,27 +79,35 @@ export default function WorkersTable({ workersData }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  let newData = workersData.map((d) => {
-    return {
-      Id: d.Id,
-      Active: d.Active,
-      Name: d.FirstName.concat(" ").concat(d.LastName),
-      JobTitle: d.JobTitle,
-      EmployerId: d.EmployerId,
-      Address:
-        formatAddress(d.StreetAddress, d.City, d.PostalCode) ||
-        "Address not found",
-      Contact:
-        formatContacts(d.MobileNumber, d.PhoneNumber) || "Contacts not found",
-      EmployeeNumber: d.EmployeeNumber,
-      EmergencyContact:
-        formatContacts(d.EmergencyContact1, d.EmergencyContact2) ||
-        "Emergency Contacts not found",
-      EmergencyNotes: d.EmergencyNotes,
-      CreatedOn: d.CreatedOn,
-      LastModifiedOn: d.LastModifiedOn,
-    };
-  });
+  const [newData, setNewData] = useState([]);
+  useEffect(() => {
+    console.log("useEffect Called");
+    setTimeout(() => {
+      let temp = workersData.map((d) => {
+        return {
+          Id: d.Id,
+          Active: d.Active,
+          Name: d.FirstName.concat(" ").concat(d.LastName),
+          JobTitle: d.JobTitle,
+          EmployerId: d.EmployerId,
+          Address:
+            formatAddress(d.StreetAddress, d.City, d.PostalCode) ||
+            "Address not found",
+          Contact:
+            formatContacts(d.MobileNumber, d.PhoneNumber) ||
+            "Contacts not found",
+          EmployeeNumber: d.EmployeeNumber,
+          EmergencyContact:
+            formatContacts(d.EmergencyContact1, d.EmergencyContact2) ||
+            "Emergency Contacts not found",
+          EmergencyNotes: d.EmergencyNotes,
+          CreatedOn: d.CreatedOn,
+          LastModifiedOn: d.LastModifiedOn,
+        };
+      });
+      setNewData(temp);
+    }, 400);
+  }, [workersData]);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -109,15 +117,55 @@ export default function WorkersTable({ workersData }) {
     setPage(0);
   };
   const navigate = useNavigate();
-
+  // if no data is present
+  if (newData.length === 0) {
+    let columns = Array(10).fill(null);
+    let rowData = Array(15).fill({});
+    return (
+      <TableContainer sx={{ height: 550 }}>
+        <Table stickyHeader aria-label="workers table">
+          <TableHead>
+            <TableRow role="checkbox" tabIndex={-1}>
+              {columns.map((column, idx) => (
+                <TableCell
+                  style={{
+                    zIndex: idx === 0 && 4,
+                    position: idx === 0 ? "sticky" : "",
+                    left: 0,
+                    boxShadow:
+                      idx === 0 && `16px 0 16px -16px rgba(0,0,0,0.1) inset`,
+                    minWidth: "100",
+                  }}
+                  key={idx}
+                ></TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rowData.map((row, index) => (
+              <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                {columns.map((c, i) => (
+                  <TableCell
+                    style={{
+                      left: 0,
+                      boxShadow:
+                        i === 0 && `16px 0 16px -16px rgba(0,0,0,0.1) inset`,
+                      // background: idx === 0 ? "grey" : "white",
+                      minWidth: "100",
+                    }}
+                    key={i}
+                  ></TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer
-        sx={{ maxHeight: 550 }}
-        style={{
-          border: "2px solid black",
-        }}
-      >
+      <TableContainer sx={{ maxHeight: 550 }}>
         <Table stickyHeader aria-label="workers table">
           <TableHead>
             <TableRow role="checkbox" tabIndex={-1}>
@@ -127,6 +175,7 @@ export default function WorkersTable({ workersData }) {
                     zIndex: idx === 0 && 4,
                     position: idx === 0 ? "sticky" : "",
                     left: 0,
+                    heigh: "100px",
                     boxShadow:
                       idx === 0 && `16px 0 16px -16px rgba(0,0,0,0.1) inset`,
                     // background: idx === 0 ? "grey" : "white",

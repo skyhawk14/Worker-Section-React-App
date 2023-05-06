@@ -69,6 +69,7 @@ const CreateWorker = () => {
         style={{
           fontWeight: 600,
         }}
+        className="text-3xl font-bold my-4"
       >
         Create Worker
       </h1>

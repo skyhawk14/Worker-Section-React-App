@@ -8,9 +8,11 @@ import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase/setup";
+import useAlert from "./custom-hooks/useAlert";
 function WebsiteAppBar() {
   const navItems = ["Show All Workers", "Create Worker"];
   const navigate = useNavigate();
+  const { setAlert } = useAlert();
   const url = {
     [navItems[0]]: "/",
     [navItems[1]]: "/create",
@@ -21,7 +23,7 @@ function WebsiteAppBar() {
       <AppBar
         component="nav"
         style={{
-          background: "rgb(85,119,210)",
+          background: "lightcoral",
           opacity: "1",
         }}
       >
@@ -69,9 +71,11 @@ function WebsiteAppBar() {
                 signOut(auth)
                   .then(() => {
                     console.log("User logged out successfully");
+                    setAlert("User Logged out successfully", "success");
                     return navigate("/login");
                   })
                   .catch((err) => {
+                    setAlert("Failed to logout", "error");
                     console.log("Error occured while doing logout", err);
                   });
               }}
