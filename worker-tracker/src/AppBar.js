@@ -5,11 +5,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase/setup";
 function WebsiteAppBar() {
   const navItems = ["Show All Workers", "Create Worker"];
-
+  const navigate = useNavigate();
   const url = {
     [navItems[0]]: "/",
     [navItems[1]]: "/create",
@@ -60,6 +61,33 @@ function WebsiteAppBar() {
                 </Link>
               </Button>
             ))}
+            <Button
+              sx={{ color: "#fff" }}
+              onClick={(e) => {
+                debugger;
+
+                signOut(auth)
+                  .then(() => {
+                    console.log("User logged out successfully");
+                    return navigate("/login");
+                  })
+                  .catch((err) => {
+                    console.log("Error occured while doing logout", err);
+                  });
+              }}
+            >
+              <span
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                  fontSize: "18px",
+                  fontWeight: "600",
+                  marginRight: "10px",
+                }}
+              >
+                Log Out
+              </span>
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
