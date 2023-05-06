@@ -66,10 +66,9 @@ export default function Workers() {
   const workers = useSelector((state) => {
     return state.workers.workersData;
   });
-  debugger;
   const dispatch = useDispatch();
   useEffect(() => {
-    async function handler() {
+    function handler() {
       dispatch(fetchAllWorkers());
     }
     handler();
@@ -103,8 +102,7 @@ export default function Workers() {
       <AppBar
         position="static"
         style={{
-          background: "gray",
-          opacity: "0.70",
+          background: "#009879",
         }}
       >
         <Toolbar style={{ justifyContent: "space-between" }}>

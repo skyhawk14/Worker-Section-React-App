@@ -1,6 +1,6 @@
 tr:nth-last-child(2n) {
   opacity: 0.6;
-  background-color: rgb(246, 234, 207) !important;
+  background-color: #f3f3f3 !important;
   color: black !important;
 }
 
