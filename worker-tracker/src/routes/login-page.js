@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
 import { userSlice } from "../store/slices/user-slice";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
@@ -13,6 +13,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/setup";
 import { useNavigate } from "react-router-dom";
+import useAlert from "../custom-hooks/useAlert";
 const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
@@ -27,6 +28,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { email, name } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { setAlert } = useAlert();
   const [error, setError] = useState("");
   const [clickedSubmit, setClickedSubmit] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -59,10 +61,12 @@ const Login = () => {
         createUserWithEmailAndPassword(auth, values.email, values.password)
           .then(() => {
             console.log("User created successfully");
+            setAlert("User has been created successful!", "success");
             return navigate("/");
           })
           .catch((err) => {
             console.log("Unable to create user");
+            setAlert("Failed to create user!", "error");
             setClickedSubmit(false);
             setError("Unable to create user");
             setTimeout(() => {
@@ -76,6 +80,7 @@ const Login = () => {
             const {
               user: { displayName, email },
             } = val;
+            setAlert("User login successful!", "success");
             dispatch(userSlice.actions.setEmail({ email }));
             dispatch(userSlice.actions.setName({ name: displayName }));
             return navigate("/");

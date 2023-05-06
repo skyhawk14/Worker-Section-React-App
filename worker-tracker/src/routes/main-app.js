@@ -3,6 +3,7 @@ import WebsiteAppBar from "../AppBar";
 import { useEffect, useState } from "react";
 import { auth } from "../firebase/setup";
 import ErrorPage from "./error-page";
+import AlertPopup from "../shared/AlertPopup";
 
 export default function MainApp() {
   const [isLogin, setIsLogin] = useState(false);
@@ -21,6 +22,7 @@ export default function MainApp() {
   }
   return (
     <>
+      <AlertPopup />
       <WebsiteAppBar />
       <div
         id="detail"

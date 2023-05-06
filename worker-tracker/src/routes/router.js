@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import AlertPopup from "../shared/AlertPopup";
 import CreateWorker from "../workers/create-worker";
 import WorkerDetails from "../workers/worker-details";
 import Workers from "../workers/workers";
@@ -9,7 +10,12 @@ import MainApp from "./main-app";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainApp />,
+    element: (
+      <>
+        <AlertPopup />
+        <MainApp />
+      </>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -31,7 +37,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <>
+        <AlertPopup />
+        <Login />
+      </>
+    ),
     errorElement: <ErrorPage />,
   },
 ]);

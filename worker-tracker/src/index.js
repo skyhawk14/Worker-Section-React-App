@@ -7,13 +7,16 @@ import MainApp from "./routes/main-app";
 import { router } from "./routes/router";
 import { store } from "./store";
 import { Provider } from "react-redux";
+import { AlertProvider } from "./context/AlertContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <AlertProvider>
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </AlertProvider>
   </Provider>
 );
 

@@ -4,7 +4,9 @@ import { Form, useNavigate } from "react-router-dom";
 import uniqid from "uniqid";
 import { createWorker } from "./utils/api";
 import "./create-worker.css";
+import useAlert from "../custom-hooks/useAlert";
 const CreateWorker = () => {
+  const { setAlert } = useAlert();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [jobtitle, setJobtitle] = useState("");
@@ -40,8 +42,12 @@ const CreateWorker = () => {
     let workerId;
     try {
       workerId = await createWorker(workerObj);
+      if (workerId) {
+        setAlert("Worker has been created!", "success");
+      }
       loadWorker(workerId);
     } catch (err) {
+      setAlert("Worker has been created!", "success");
       loadWorker(workerId);
       console.log(err);
     }
